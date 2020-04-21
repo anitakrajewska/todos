@@ -1,0 +1,320 @@
+$color-base: #0d263f;
+$color-link: #3D88E6;
+$color-danger: #eb2521;
+$color-success: #6ebe3b;
+
+
+$shadow-color-dark: #2E67A6;
+$shadow-value: 0 4px 9px rgba($shadow-color-dark, .20);
+
+$product-brand-shadow-color-alt: #0d263f;
+$product-brand-shadow-color: #2e67a6;
+$product-brand-shadow-value: 0 2px 30px rgba($product-brand-shadow-color, .2);
+$product-brand-block-shadow-value: 0 4px 9px rgba($shadow-color-dark, .15);
+
+//forms
+$input-placeholder-color: rgba($shadow-color-dark, .3);
+$input-label-color: $color-base;
+$input-border-width: 0 0 1px;
+$input-border-color: rgba($shadow-color-dark, .3);
+$input-focus-border-color: $shadow-color-dark;
+
+
+/* mixins */
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+@mixin font-size($size, $base: 16) {
+  font-size: $size * 1px; // fallback for old browsers
+  font-size: ($size / $base) * 1rem;
+}
+@mixin list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ui-readonly {
+  position: absolute;
+  overflow: hidden;
+  display: block;
+  clip: rect(0,0,0,0);
+  width: 1px;
+  height: 1px;
+}
+
+
+
+/* global elements & typo */
+html {
+  box-sizing: border-box;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+}
+html, body {
+  overflow-x: hidden;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  font: 1em/1.5  -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  color: $color-base;
+}
+
+:focus {
+  outline: none;
+}
+a {
+  color: $color-link;
+  text-decoration: none;
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+
+/* buttons */
+.btn {
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  line-height: 1.4;
+  @include font-size(18);
+  font-weight: 400;
+  text-align: center;
+  text-shadow: none;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  outline: 0;
+  // padding: 12px 15px;
+  border: 1px solid transparent;
+  box-shadow: $shadow-value;
+  transform: none;
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: .15s;
+  transition-timing-function: ease-in-out;
+  // min-width: 175px;
+  // border-radius: 25px;
+
+  &,
+  &:hover {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 7px 14px rgba($product-brand-shadow-color, .1), 0 3px 6px rgba($product-brand-shadow-color, .08);
+  }
+}
+
+
+label {
+  cursor: pointer;
+  display: inline-block;
+}
+
+input,
+textarea,
+select,
+button {
+  color: inherit;
+  resize: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  font-size: 1em;
+  font-weight: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  background: transparent;
+  appearance: none;
+  box-sizing: border-box;
+}
+
+// input::-webkit-search-decoration,
+// input::-webkit-search-cancel-button {
+//     display: none;
+// }
+
+// select {
+//   appearance: button;
+// }
+
+::placeholder {
+  color: $input-placeholder-color;
+}
+
+
+//https://stackoverflow.com/questions/3773430/remove-outline-from-select-box-in-ff
+// @-moz-document url-prefix() {
+//   select:-moz-focusring,
+//   select::-moz-focus-inner {
+//     color: transparent !important;
+//     text-shadow: 0 0 0 $input-label-color !important;
+//   }
+// }
+
+.newTask {
+  &__input {
+    @include font-size(26);
+    text-align: center;
+    border-width: $input-border-width;
+    border-style: solid;
+    border-color: $input-border-color;
+    padding: .5em 1em;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      border-color: $input-focus-border-color;
+    }
+  }
+}
+
+
+$taskPadding: 1em;
+.task {
+  padding: $taskPadding;
+  padding-left: 3.8em;
+  position: relative;
+
+  &__title {
+    margin: 0;
+    font-weight: normal;
+  }
+  &__btnDelete {
+    overflow: hidden;
+    cursor: pointer;
+    width: 3rem;
+    height: 3rem;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity .15s ease-in-out;
+    
+    > span {
+      @extend .ui-readonly;
+    }
+    &::before {
+      @include font-size(28);
+      content: '\00D7';
+      color: $color-danger;
+    }
+    .task:hover & {
+      opacity: 1;
+    }
+  }
+  &__toggleLabel {
+    color: $color-success;
+    position: absolute;
+    left: $taskPadding;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    transition: color .15s ease-in-out;
+
+    &::before {
+      content: '\2713';
+      text-align: center;
+      display: block;
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.15s 0.1s ease-in-out, transform 0.15s 0.1s ease-in-out;
+    }
+  }
+  .task__toggle {
+    position: absolute;
+  }
+  .task__toggle:checked + &__toggleLabel {
+    color: $input-border-color;
+    
+    &::before {
+      opacity: 0;
+      transform: scale(0);
+    }
+    &:hover {
+      color: $input-focus-border-color;
+    }
+  }
+  .task__toggle:not(:checked) ~ &__title {
+    color: rgba($color-base, .3);
+    font-style: italic;
+    text-decoration: line-through;
+  }
+  
+  &:not(:last-child) {
+    border-bottom: 1px dashed rgba($color-base, .1);
+  }
+}
+
+.taskList {
+  @include list-reset;  
+}
+
+// .btnFilter {
+//   @extend .btn;
+//   @include font-size(12);
+//   color: $color-link;
+//   padding: .3em;
+//   min-width: 6em;
+
+//   &:hover {
+//     color: $color-base;
+//   }
+// }
+.filterList {
+  @include font-size(12);
+  color: rgba($color-base, .6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+
+  > * {
+    flex: 1
+  }
+}
+.filterClear {
+  text-align: right;
+
+  button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+// .filters {
+//   @include list-reset;
+//   display: flex;
+// }
+
+
+.todoapp {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1em;
+}
+.todos {
+  min-height: 8rem;
+  max-height: 55vh;
+  overflow: auto;
+  box-shadow: inset 0 7px 12px -13px rgba($color-base, .3),
+              inset 0 -7px 12px -13px rgba($color-base, .3);
+}
